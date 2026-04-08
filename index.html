@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>查欣妍 · 猫咪主理人 & 鼓手 · 照片版</title>
+    <!-- 柔和风格，清新手写感 + 本地照片嵌入 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;600&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #fff9f5 0%, #fdf0e8 100%);
+            font-family: 'Quicksand', sans-serif;
+            color: #3e3a36;
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        .card {
+            max-width: 880px;    /* 稍微加宽以容纳照片 */
+            width: 100%;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 42px;
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.15),
+                        0 2px 10px 0 rgba(255, 220, 200, 0.3);
+            padding: 2.2rem 2.5rem;
+            border: 1px solid rgba(255, 245, 235, 0.6);
+            transition: all 0.2s ease;
+        }
+
+        /* 装饰猫爪小标记 */
+        .cat-paw {
+            display: inline-block;
+            font-size: 1.3rem;
+            margin-right: 6px;
+            filter: drop-shadow(0 2px 4px rgba(251, 176, 134, 0.3));
+        }
+
+        h1 {
+            font-size: 3.2rem;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            color: #4c3b32;
+            line-height: 1.1;
+            margin-bottom: 0.2rem;
+            font-family: 'Space Grotesk', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            flex-wrap: wrap;
+        }
+
+        h1 .subname {
+            font-size: 1.6rem;
+            font-weight: 400;
+            color: #b97c5b;
+            margin-left: 0.25rem;
+            font-family: 'Quicksand', sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem 1rem;
+            margin: 1rem 0 1.4rem 0;
+        }
+
+        .badge {
+            background: #f2dbcf;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #5a4439;
+            box-shadow: 0 2px 6px #f0cfbc;
+            display: inline-flex;
+            align-items: center;
+            border: 1px solid #ffeadd;
+        }
+
+        .badge i {
+            margin-right: 0.3rem;
+            font-size: 1.2rem;
+        }
+
+        .section {
+            background: rgba(255, 252, 250, 0.7);
+            border-radius: 28px;
+            padding: 1.2rem 1.8rem;
+            margin: 1.8rem 0;
+            border: 1px solid #fce3d5;
+            box-shadow: inset 0 1px 4px #fffcf8, 0 8px 12px -12px #d9b7a4;
+        }
+
+        /* 新的照片+信息双列布局 */
+        .profile-with-photo {
+            display: grid;
+            grid-template-columns: 200px 1fr;  /* 照片固定200px */
+            gap: 2rem;
+            align-items: start;
+            margin: 1.5rem 0 0.8rem 0;
+        }
+
+        /* 照片区域 */
+        .photo-frame {
+            background: #fadccb;
+            border-radius: 30px;
+            padding: 0.6rem;
+            box-shadow: 0 15px 20px -10px #b68b77;
+            border: 3px solid #ffe1cf;
+            transform: rotate(0.5deg);
+            transition: transform 0.2s ease;
+        }
+
+        .photo-frame:hover {
+            transform: rotate(0deg) scale(1.02);
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: auto;
+            border-radius: 24px;
+            display: block;
+            background: #efcfbc; /* 加载占位色 */
+            border: 2px solid white;
+            object-fit: cover;    /* 保证铺满不变形 */
+            aspect-ratio: 3/4;    /* 大约3:4 竖幅 */
+        }
+
+        /* 照片下方小标签 */
+        .photo-caption {
+            text-align: center;
+            margin-top: 0.4rem;
+            font-size: 0.9rem;
+            color: #9f6f55;
+            font-weight: 500;
+            background: #ffffffaa;
+            border-radius: 30px;
+            padding: 0.2rem 0;
+        }
+
+        /* 右侧信息卡片 */
+        .info-side {
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 32px;
+            padding: 1.5rem 1.8rem;
+            backdrop-filter: blur(4px);
+            border: 1px solid #fbdbc9;
+        }
+
+        .info-list {
+            list-style: none;
+            font-size: 1.2rem;
+        }
+
+        .info-list li {
+            margin-bottom: 0.7rem;
+            display: flex;
+            align-items: baseline;
+            gap: 0 0.8rem;
+            flex-wrap: wrap;
+            border-bottom: 1px dashed #f5cdbb;
+            padding-bottom: 0.4rem;
+        }
+
+        .info-tag {
+            font-weight: 600;
+            color: #b35f38;
+            min-width: 85px;
+            font-size: 1rem;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+
+        .info-value {
+            font-weight: 500;
+            color: #4d3b30;
+        }
+
+        .highlight {
+            background: #fee9df;
+            border-radius: 50px;
+            padding: 0.2rem 1rem;
+            font-weight: 600;
+            color: #8d4f32;
+            white-space: nowrap;
+        }
+
+        .teacher-quote {
+            font-size: 1.3rem;
+            background: #fae2d4;
+            border-radius: 2rem 2rem 2rem 0.5rem;
+            padding: 0.8rem 1.5rem;
+            margin: 1rem 0 0.5rem 0;
+            display: inline-block;
+            border: 1px solid #efcfbc;
+        }
+
+        .teacher-quote span {
+            font-weight: 600;
+            color: #672e1a;
+        }
+
+        .onion-band {
+            background: #34312e;
+            color: #fee3d0;
+            padding: 0.2rem 1.2rem;
+            border-radius: 30px;
+            font-size: 1.3rem;
+            font-weight: 500;
+            display: inline-block;
+            letter-spacing: 1px;
+            border: 2px solid #ffb185;
+            box-shadow: 0 3px 0 #7a4d33;
+        }
+
+        .cat-emoji-bunch {
+            font-size: 2rem;
+            line-height: 1;
+            margin-top: 0.5rem;
+        }
+
+        .numerical-stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 1.5rem 0 0.8rem 0;
+            background: #faeadf;
+            border-radius: 80px;
+            padding: 0.9rem 1rem;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            min-width: 70px;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #6a3f2b;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #a66f54;
+        }
+
+        .footer-note {
+            font-size: 0.95rem;
+            text-align: center;
+            margin-top: 2rem;
+            color: #bb8b76;
+            border-top: 2px dotted #f6cdb8;
+            padding-top: 1.5rem;
+        }
+
+        .footer-note a {
+            color: #b35f38;
+            text-decoration: none;
+            border-bottom: 1px dotted #b35f38;
+        }
+
+        /* 响应式 */
+        @media (max-width: 700px) {
+            .profile-with-photo {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            .photo-frame {
+                max-width: 280px;
+                margin: 0 auto;
+            }
+            .card {
+                padding: 1.5rem;
+            }
+            h1 {
+                font-size: 2.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <!-- 头部: 姓名 + 猫咪主理人头衔 (无头像,头像已替换为照片) -->
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
+        <div>
+            <h1>
+                查欣妍
+                <span class="subname">·  XINYAN</span>
+            </h1>
+            <div class="badge-container">
+                <span class="badge"><i>🐱</i> 猫咪主理人</span>
+                <span class="badge"><i>🥁</i> 不知名鼓手</span>
+                <span class="badge"><i>🧅</i> 爆裂洋葱</span>
+            </div>
+        </div>
+        <!-- 此处原本是猫爪头像，现在删掉，照片已在下方面展示，为了平衡可加一个小标记 -->
+        <span style="font-size: 2rem;">🎓🐾</span>
+    </div>
+
+    <!-- ========= 照片 + 主要信息合并区域 ========= -->
+    <div class="profile-with-photo">
+        <!-- 左侧: 本地照片 -->
+        <div class="photo-frame">
+            <!-- 使用 file 协议路径（Windows风格）同时做了转义处理 -->
+            <img src="file:///C:/Users/23888/Desktop/查欣妍JPG%20文件.jpg" 
+                 alt="查欣妍照片 · 猫咪主理人"
+                 onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22200%22%20height%3D%22260%22%20viewBox%3D%220%200%20200%20260%22%3E%3Crect%20width%3D%22200%22%20height%3D%22260%22%20fill%3D%22%23fadccb%22%2F%3E%3Ctext%20x%3D%2230%22%20y%3D%22130%22%20font-family%3D%22Quicksand%22%20font-size%3D%2218%22%20fill%3D%22%23966449%22%3E📸%20查欣妍%3C%2Ftext%3E%3Ctext%20x%3D%2230%22%20y%3D%22160%22%20font-family%3D%22Quicksand%22%20font-size%3D%2214%22%20fill%3D%22%23955f44%22%3E%E7%85%A7%E7%89%87%E5%8A%A0%E8%BD%BD%E4%B8%AD...%3C%2Ftext%3E%3C%2Fsvg%3E';">
+            <div class="photo-caption">
+                🐈 猫咪主理人 · 查欣妍
+            </div>
+        </div>
+
+        <!-- 右侧: 个人信息卡片（身高体重生日等） -->
+        <div class="info-side">
+            <ul class="info-list">
+                <li><span class="info-tag">📏 身高</span><span class="info-value">167 cm</span></li>
+                <li><span class="info-tag">⚖️ 体重</span><span class="info-value">55 kg</span></li>
+                <li><span class="info-tag">🎂 生日</span><span class="info-value">2005.04.09 (白羊座)</span></li>
+                <li><span class="info-tag">🎓 专业</span><span class="info-value">汉语国际教育</span></li>
+                <li><span class="info-tag">🏫 学校</span><span class="info-value">四川外国语大学</span></li>
+                <li><span class="info-tag">🥁 乐队</span><span class="info-value">爆裂洋葱 · 鼓手</span></li>
+            </ul>
+            <!-- 恩师吴骜 放在这里更紧凑 -->
+            <div class="teacher-quote" style="margin: 0.8rem 0 0 0; padding: 0.5rem 1.2rem;">
+                <span>🎼 恩师 · 吴骜</span> 
+                <div style="font-size: 0.95rem;">“汉语声调即节奏，鼓点即语气”</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 猫咪主理人专属小板块 (增强趣味) -->
+    <div style="display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1rem;">
+        <div style="background: #fef1e8; border-radius: 50px; padding: 0.5rem 1.5rem; flex: 1; min-width: 200px;">
+            <span style="font-weight: 600;">🐱 猫咪主理人 · 三猫家庭</span> 
+            <span style="color:#ac6f50;"> 年糕、花椒、糊糊</span>
+        </div>
+        <div style="background: #ead9cf; border-radius: 50px; padding: 0.5rem 1.5rem; flex: 1; min-width: 200px;">
+            <span style="font-weight: 600;">🧅 爆裂洋葱 · 不知名鼓手</span>
+            <span style="color:#7b4f3a;"> 正在变响</span>
+        </div>
+    </div>
+
+    <!-- 数值卡片: 167 · 55 · 04.09 · 猫咪3只 (重新设计但保留趣味) -->
+    <div class="numerical-stats">
+        <div class="stat-item">
+            <div class="stat-number">167</div>
+            <div class="stat-label">身高 cm</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">55</div>
+            <div class="stat-label">体重 kg</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">04.09</div>
+            <div class="stat-label">白羊座</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">🐈3</div>
+            <div class="stat-label">猫主子</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">🥁1</div>
+            <div class="stat-label">爆裂鼓手</div>
+        </div>
+    </div>
+
+    <!-- 一段小自述，带点幽默感 (稍作丰富) -->
+    <div class="section" style="margin-top: 0.2rem;">
+        <p style="font-size: 1.15rem; font-style: italic;">
+            “ 一边敲鼓一边撸猫，在爆裂洋葱负责制造噪音和可爱。  
+            恩师吴骜教会我：打鼓就像教汉语——轻重音都是情绪。  
+            四川外国语大学·汉语国际教育在读，未来想把中文和摇滚乐打包出口。 ”
+        </p>
+    </div>
+
+    <!-- 脚注，包含生日完整信息和猫咪彩蛋 -->
+    <div class="footer-note">
+        <div>🐾 查欣妍 · 生于2005年4月9日 · 167cm / 55kg · 猫咪主理人 & 不知名鼓手 🧅</div>
+        <div style="margin-top: 0.8rem; display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap;">
+            <span>📧 xinyan.zha@ onionband.com</span>
+            <span>📷 @xinyan_onion</span>
+            <span style="font-family: monospace;">🥁 爆裂洋葱 · 排练中</span>
+        </div>
+        <div style="margin-top: 1rem;">
+            🐱 🥁  <a href="#" style="text-decoration: none;">www.zhaoxinyan.cat</a>  🧅 🎓
+        </div>
+        <!-- 吴骜老师签名 -->
+        <div style="margin-top: 1rem; font-size: 0.8rem; color: #c19a82;">—— 感谢恩师 吴骜 引领音乐与汉语之路 ——</div>
+        <!-- 提示照片路径 (仅用于友好提示，不影响显示) -->
+        <div style="font-size: 0.6rem; opacity: 0.4; margin-top: 0.5rem;">📁 本地照片: C:\Users\23888\Desktop\查欣妍JPG 文件.jpg</div>
+    </div>
+</div>
+
+<!-- 底部装饰 -->
+<div style="position: fixed; bottom: 10px; left: 10px; opacity: 0.1; font-size: 4rem; pointer-events: none;">🐾</div>
+<div style="position: fixed; top: 10px; right: 20px; opacity: 0.1; font-size: 5rem; pointer-events: none;">🥁</div>
+
+<!-- 一个小脚本：如果照片加载失败显示更友好的纯色占位，但已经用 onerror 处理了 -->
+</body>
+</html>
